@@ -23,13 +23,7 @@ Your database configuration would look something like this:
 
         /* these would be your existing DB credentials */
     	var $default = array(
-    		'driver' => 'mysql',
-    		'persistent' => false,
-    		'host' => 'localhost',
-    		'login' => 'db_password',
-    		'password' => '',
-    		'database' => 'narb',
-    		'encoding' => 'utf8'
+    	    //...
     	);
 
         /* and here we have your Foursquare credentials */
