@@ -1,18 +1,20 @@
-=CakePHP Foursquare Datasource
+CakePHP Foursquare Datasource
+=============================
 
 This datasource acts as a basic wrapper for the [Foursquare API](http://groups.google.com/group/foursquare-api/web/api-documentation?show_cb=1&pli=1) that allows you to interact with the API from Cake as you would with any model.
 
-==Installation
+Installation
+------------
 
 1. Place foursquare_source.php in your app/models/datasources folder
 2. Add the credentials to database.php
 3. Add your datasource and call some methods
 
-===Step 1: Place foursquare_source.php in your app/models/datasources folder
+### Step 1: Place foursquare_source.php in your app/models/datasources folder
 
 Simply check out or download this repository to your app folder and make sure everything is in the right place.
 
-===Step 2: Add the credentials to database.php
+### Step 2: Add the credentials to database.php
 
 Your database configuration would look something like this:
     
@@ -40,7 +42,7 @@ Your database configuration would look something like this:
     }
     ?>
 
-===Step 3: Add your datasource and call some methods
+### Step 3: Add your datasource and call some methods
 
 An example where you make your Foursquare data available right into a controller would look something like this:
 
