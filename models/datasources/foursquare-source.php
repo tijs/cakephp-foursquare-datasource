@@ -48,18 +48,6 @@ class FoursquareSource extends DataSource
 		$this->password = $this->config['password'];
 	}
 
-
-    /**
-     * Get a list of nearby venues based on location
-     *
-     * @deprecated cities are irrelevant since Foursquare Everywhere
-     * @see http://groups.google.com/group/foursquare-api/web/api-documentation
-     */
-    function cities() {    
-    	$url = "http://api.foursquare.com/v1/cities";
-    	return $this->__process($this->Http->get($url));
-    }
-
 	/**
 	 * Returns a list of recent checkins from friends.
 	 *
@@ -80,10 +68,9 @@ class FoursquareSource extends DataSource
 	}
 
 	/**
-	 * Returns a list of recent checkins from friends.
+	 * Allows you to check-in to a place.
 	 *
-	 * When your current latitude and longitude is added distance of each friend (in meters)
-	 * is returned as well.
+	 * Please refer to the API documentation for some usage suggestions.
 	 *
 	 * @param integer vid Optional. ID of the venue where you want to check-in.
 	 * @param string venue Optional. if you don't have a venue ID, pass the venue name as a string using this parameter. foursquare will attempt to match it on the server-side
