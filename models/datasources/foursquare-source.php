@@ -20,6 +20,7 @@
  *
  * References(Credits):
  * http://bakery.cakephp.org/articles/view/twitter-datasource
+ * Jason Tan's PHP REST wrapper http://code.google.com/p/php-rest-api/ (for ideas on how to handle grouped results)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
@@ -29,8 +30,8 @@
  * @link http://github.com/tijs/cakephp-foursquare-datasource
  * @copyright (c) 2010 Tijs Teulings
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- * @created January 9, 2010
- * @version 0.1
+ * @created January 24, 2010
+ * @version 0.2
  */
 App::import('Core', array('Xml', 'HttpSocket'));
 
@@ -145,7 +146,7 @@ class FoursquareSource extends DataSource
 	/**
 	 * Get a list of nearby venues based on location
 	 *
-	 * Be careful using this list as is, sometimes it returns trending venues before nearby ones, so keep an eye on the type!
+	 * Returns a group (i.e. Matching places or Nearby) with one or more venues
 	 *
 	 * @param float geolat Required.  The latitude of your venue.
 	 * @param float geolong Required.  The longitude of your venue.
@@ -158,7 +159,7 @@ class FoursquareSource extends DataSource
 	    $params = array_filter(compact('geolat', 'geolong', 'q', 'l'));
 	    
 		$url = "http://api.foursquare.com/v1/venues";
-		return $this->__process($this->Http->get($url, $params, $this->__getAuthHeader()));
+		return $this->__processGroups($this->Http->get($url, $params, $this->__getAuthHeader()));
 		
 	}
 
@@ -250,7 +251,7 @@ class FoursquareSource extends DataSource
 	    $params = array_filter(compact('geolat', 'geolong', 'l'));
 	    
 		$url = "http://api.foursquare.com/v1/tips";
-		return $this->__process($this->Http->get($url, $params, $this->__getAuthHeader()));
+		return $this->__processGroups($this->Http->get($url, $params, $this->__getAuthHeader()));
 		
 	}
 
@@ -445,17 +446,50 @@ class FoursquareSource extends DataSource
 	/**
 	 *
 	 * @param string data to process
-	 * @return array Twitter API response
+	 * @return array Foursquare API response
 	 */
 	function __process($response) {
 		$xml = new XML($response);
 		$array = $xml->toArray();
 
-		$xml->__killParent();
 		$xml->__destruct();
 		$xml = null;
 		unset($xml);
 
 		return $array;
 	}
+
+	/**
+	 * Alternative processing fro methods that can return groups
+	 *
+	 * @param string data to process
+	 * @return array Foursquare API response
+	 */
+	function __processGroups($response) {
+	    
+		$xml = new XML($response);
+
+        $groups = $xml->children;
+        
+  
+        if (is_array($groups)) {
+
+            $return = array();
+
+            foreach($groups as $group) {
+                if (isset($group->children[0]->attributes['type']) && isset($group->children[0]->children) && is_array($group->children[0]->children)) {
+                    $return[$group->children[0]->attributes['type']] = $this->__process($group->children[0]->children);
+                }
+            }
+            
+        } else {
+            return false;
+        }
+        
+        return $return;
+
+	}
+
+
+
 }

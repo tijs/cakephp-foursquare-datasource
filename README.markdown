@@ -51,10 +51,10 @@ An example where you make your Foursquare data available right into a controller
             /* We initialize the new datasource like so */
             $this->Foursquare = ConnectionManager::getDataSource('foursquare');
             
-            /* And then we call any of the available methods, a simple test method in this case */
-            $result = $this->Foursquare->test();
+            /* And then we call any of the available methods, the venues method in this case */
+            $result = $this->Foursquare->venues('51.914835', '4.473985', null, 10); // params: lat, long, name, limit
 
-            debug($result); // returns an array with an ok message if Foursquare can be reached
+            debug($result); // returns an array with 10 venues near the Boijmans van Beuningen Museum in Rotterdam, the Netherlands
 
         } 
     } 
