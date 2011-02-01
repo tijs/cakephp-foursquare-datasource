@@ -1,6 +1,8 @@
 CakePHP Foursquare Datasource
 =============================
 
+**Note: This datasource is not yet compatible with the v2 API, feel free to update it if you need this functionality!**
+
 This datasource acts as a basic wrapper for the [Foursquare API](http://groups.google.com/group/foursquare-api/web/api-documentation?show_cb=1&pli=1) that allows you to interact with the API from Cake as you would with any model.
 
 Installation
